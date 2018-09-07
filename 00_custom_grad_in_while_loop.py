@@ -1,5 +1,9 @@
 import tensorflow as tf
+import console
 
+
+console.suppress_logging()
+console.start('Custom gradient in while_loop')
 
 u, v = tf.constant(2.), tf.constant(4.)
 elems = tf.constant([1., 2. ,3.])
@@ -50,3 +54,5 @@ with tf.Session() as sess:
 
   # val_dr3_dv = sess.run(dr3_dv)
   # print('>> dr3_dv = {}'.format(val_dr3_dv))
+
+console.end()
