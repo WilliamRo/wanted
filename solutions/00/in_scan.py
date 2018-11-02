@@ -27,7 +27,7 @@ rs = tf.scan(fn, elems, initializer=0.)
 r = rs[-1]
 dr3_dv = tf.gradients(r, v)
 
-truncation_switch = True
+truncation_switch = False
 
 with tf.Session() as sess:
   val_rs = sess.run(rs)
