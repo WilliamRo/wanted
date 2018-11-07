@@ -8,6 +8,8 @@ import os
 
 from sys import stdout
 
+import tensorflow as tf
+
 
 _config = {
   'default_line_width': 80,
@@ -141,4 +143,13 @@ def suppress_logging():
 def execute_py(path, **kwargs):
   os.system('python {} {}'.format(path, ' '.join(
     ['--{} {}'.format(k, kwargs[k]) for k in kwargs.keys()])))
+
+
+def eval_show(tensor, name='result', feed_dict=None):
+  sess = tf.get_default_session()
+  val = sess.run(tensor, feed_dict=feed_dict)
+  if len(val.shape) > 1:
+    show_status('{} = '.format(name))
+    pprint(val)
+  else: show_status('{} = {}'.format(name, val))
 

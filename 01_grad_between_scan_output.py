@@ -9,6 +9,7 @@ u, v, w = tf.constant(2.), tf.constant(4.), tf.constant(10.)
 elems = tf.constant([1., 2. ,3.])
 
 def fn(pre_outputs, x):
+  """Tensors inside while_loop will be marked as not fetchable"""
   # Get previous s. pre_outputs = (pre_y, pre_s)
   pre_s = pre_outputs[1]
 
@@ -18,8 +19,8 @@ def fn(pre_outputs, x):
 
 ys, ss = tf.scan(fn, elems, initializer=(0., 0.))
 last_y, last_s = ys[-1], ss[-1]
-dy_ds = tf.gradients(last_y, last_s)
 
+dy_ds = tf.gradients(last_y, last_s)
 # TODO: the problem is dy_ds = [None]
 
 with tf.Session() as sess:
@@ -32,7 +33,8 @@ with tf.Session() as sess:
   show('last_s', last_s)
   show('last_y', last_y)
 
-  show('dy/ds', dy_ds)
+  # TODO: what we want to see is '>> dy/ds = 10.' using last y and s
+  # show('dy/ds', dy_ds)
 
 console.end()
 
